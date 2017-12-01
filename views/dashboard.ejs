@@ -185,9 +185,59 @@
         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <div id="map"></div>
       </div>
-
-      
   </div>
+
+  <div class="col-md-4" style="opacity: 0.85;">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+            <span>Secondary Light Switch</span>
+          </h3>
+        </div>
+        <table class="table table-bordered table-striped table-hover">
+          <tbody>
+            <tr>
+              <td>Kitchen</td>
+              <td>
+                <label class="switch">
+                  <input type="checkbox" checked id="switch1" onchange="doorLock()">
+                  <span class="slider round"></span>
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>Living Room</td>
+              <td>
+                <label class="switch">
+                  <input type="checkbox" checked id="switch2" onchange="doorLock()">
+                  <span class="slider round"></span>
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>Bedroom</td>
+              <td>
+                <label class="switch">
+                  <input type="checkbox" checked id="switch3" onchange="doorLock()">
+                  <span class="slider round"></span>
+                </label>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Bedroom 2</td>
+              <td>
+                <label class="switch">
+                  <input type="checkbox" checked id="switch3" onchange="doorLock()">
+                  <span class="slider round"></span>
+                </label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
 
   <div class="iot-box" id="chat">
     <div class="iot-header" onclick='showHideChat()'>
