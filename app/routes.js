@@ -22,7 +22,7 @@ module.exports = function(app, passport){
     });
 
     app.get('/video', isLoggedIn, function(req, res) {
-        res.redirect('http://192.168.0.112/html');
+        res.redirect('http://192.168.1.12/html');
     });
 
     app.get('/auth/facebook', passport.authenticate('facebook', { 
