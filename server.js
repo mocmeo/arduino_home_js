@@ -106,21 +106,6 @@ function mapConditionToAngle(condition) {
 
 
 io.on('connection', function(socket) {
-    // socket.emit('welcome', { message: 'Connected!!!'});
-
-    // console.log("Connected");
-    // var led = [true,false];
-    // var interval1 = setInterval(function(){ 
-    //     for ( var i = 0; i < led.length; i ++) {   
-    //         led[i] = !led[i];
-    //     }
-    //     var json = {
-    //         "led" : led
-    //     }
-    //     socket.emit('led_ahihi', json );
-    //     console.log("send LED");
-    // }, 1000);
-
     socket.on('connection', function(data) {
         console.log(data.message);
         var deviceName = data.message;
@@ -195,7 +180,14 @@ io.on('connection', function(socket) {
            var jsonWeather = JSON.parse(body);
            var currentWeather = getCurrentWeather(jsonWeather);
 
-           moveServoToCondition(currentWeather);
+           var displayWeather = currentWeather.weather[0].description;
+
+           var json = {
+             "weather": [displayWeather],
+             "city": [data.city]
+           }
+           io.sockets.emit('weather-indication', json);
+           console.log(displayWeather);
          }
         });
     });
