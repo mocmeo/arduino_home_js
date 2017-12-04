@@ -87,6 +87,38 @@ $('#switch3').click(function() {
     }
 });
 
+$('#switch4').click(function() {
+    if ($('#switch4').is(':checked')) {
+        socket.emit('switch4', 1);
+    } else {
+        socket.emit('switch4', 0);
+    }
+});
+
+$('#servo1').click(function() {
+    if ($('#servo1').is(':checked')) {
+        socket.emit('servo1', 1);
+    } else {
+        socket.emit('servo1', 0);
+    }
+});
+
+$('#servo2').click(function() {
+    if ($('#servo2').is(':checked')) {
+        socket.emit('servo2', 1);
+    } else {
+        socket.emit('servo2', 0);
+    }
+});
+
+$('#servo3').click(function() {
+    if ($('#servo3').is(':checked')) {
+        socket.emit('servo3', 1);
+    } else {
+        socket.emit('servo3', 0);
+    }
+});
+
 var weatherInput = $('#pac-input');
 weatherInput.change((function(e) {
     var value = e.target.value.trim();

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -132,7 +133,7 @@
               <td>Kitchen</td>
               <td>
                 <label class="switch">
-                  <input type="checkbox" checked id="switch1" onchange="doorLock()">
+                  <input type="checkbox" checked id="servo1">
                   <span class="slider round"></span>
                 </label>
               </td>
@@ -141,7 +142,7 @@
               <td>Living Room</td>
               <td>
                 <label class="switch">
-                  <input type="checkbox" checked id="switch2" onchange="doorLock()">
+                  <input type="checkbox" checked id="servo2">
                   <span class="slider round"></span>
                 </label>
               </td>
@@ -150,7 +151,7 @@
               <td>Bedroom</td>
               <td>
                 <label class="switch">
-                  <input type="checkbox" checked id="switch3" onchange="doorLock()">
+                  <input type="checkbox" checked id="servo3">
                   <span class="slider round"></span>
                 </label>
               </td>
@@ -184,10 +185,11 @@
         </div>
         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <div id="map"></div>
-      </div>
+      </div>      
   </div>
 
-  <div class="col-md-4" style="opacity: 0.85;">
+  <!-- Secondary Light Switch -->
+    <div class="col-md-4" style="opacity: 0.85;">
       <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">
@@ -201,7 +203,7 @@
               <td>Kitchen</td>
               <td>
                 <label class="switch">
-                  <input type="checkbox" checked id="switch1" onchange="doorLock()">
+                  <input type="checkbox" checked id="switch1" >
                   <span class="slider round"></span>
                 </label>
               </td>
@@ -210,26 +212,25 @@
               <td>Living Room</td>
               <td>
                 <label class="switch">
-                  <input type="checkbox" checked id="switch2" onchange="doorLock()">
+                  <input type="checkbox" checked id="switch2" >
                   <span class="slider round"></span>
                 </label>
               </td>
             </tr>
             <tr>
-              <td>Bedroom</td>
+              <td>Bedroom 1</td>
               <td>
                 <label class="switch">
-                  <input type="checkbox" checked id="switch3" onchange="doorLock()">
+                  <input type="checkbox" checked id="switch3" >
                   <span class="slider round"></span>
                 </label>
               </td>
             </tr>
-
             <tr>
               <td>Bedroom 2</td>
               <td>
                 <label class="switch">
-                  <input type="checkbox" checked id="switch3" onchange="doorLock()">
+                  <input type="checkbox" checked id="switch4">
                   <span class="slider round"></span>
                 </label>
               </td>
@@ -237,7 +238,6 @@
           </tbody>
         </table>
       </div>
-
 
   <div class="iot-box" id="chat">
     <div class="iot-header" onclick='showHideChat()'>

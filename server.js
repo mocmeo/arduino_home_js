@@ -29,8 +29,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({secret: 'anystringoftext',
-                saveUninitialized: true,
-                resave: true}));
+    saveUninitialized: true,
+    resave: true}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -101,9 +101,11 @@ function mapConditionToAngle(condition) {
     return 135;
     case 'thunderstorm':
     return 150;
-  }
+}
 }
 
+var prevDoor = false;
+var curDoor = false;
 
 io.on('connection', function(socket) {
     socket.on('connection', function(data) {
@@ -166,12 +168,17 @@ io.on('connection', function(socket) {
     });
 
     socket.on('doorLock', function(data) {
-        console.log(data.message);
-        io.sockets.emit('doorLock', data.message);
+        // curDoor = true;
+        if (prevDoor == false && curDoor == true) {
+            console.log(data.message);
+            io.sockets.emit('doorLock', data.message);
+            pusher.pushNotification('IoT Home - Door', 'Someone opens the door!');
+        }
+        prevDoor = curDoor;
     })
 
     socket.on('search-weather', (data) => {
-    const weatherURL = 'http://api.openweathermap.org/data/2.5/forecast?' 
+        const weatherURL = 'http://api.openweathermap.org/data/2.5/forecast?' 
         + 'q=' 
         + encodeURIComponent(data.city) 
         + '&mode=json&units=metric&appid=' + apiKey;
@@ -185,11 +192,11 @@ io.on('connection', function(socket) {
            var json = {
              "weather": [displayWeather],
              "city": [data.city]
-           }
-           io.sockets.emit('weather-indication', json);
-           console.log(displayWeather);
          }
-        });
+         io.sockets.emit('weather-indication', json);
+         console.log(displayWeather);
+     }
+ });
     });
 
     socket.on('switch1', function(data) {
