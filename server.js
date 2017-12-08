@@ -29,8 +29,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({secret: 'anystringoftext',
-    saveUninitialized: true,
-    resave: true}));
+                saveUninitialized: true,
+                resave: true}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -101,13 +101,26 @@ function mapConditionToAngle(condition) {
     return 135;
     case 'thunderstorm':
     return 150;
-}
+  }
 }
 
-var prevDoor = false;
-var curDoor = false;
 
 io.on('connection', function(socket) {
+    // socket.emit('welcome', { message: 'Connected!!!'});
+
+    // console.log("Connected");
+    // var led = [true,false];
+    // var interval1 = setInterval(function(){ 
+    //     for ( var i = 0; i < led.length; i ++) {   
+    //         led[i] = !led[i];
+    //     }
+    //     var json = {
+    //         "led" : led
+    //     }
+    //     socket.emit('led_ahihi', json );
+    //     console.log("send LED");
+    // }, 1000);
+
     socket.on('connection', function(data) {
         console.log(data.message);
         var deviceName = data.message;
@@ -168,17 +181,12 @@ io.on('connection', function(socket) {
     });
 
     socket.on('doorLock', function(data) {
-        // curDoor = true;
-        if (prevDoor == false && curDoor == true) {
-            console.log(data.message);
-            io.sockets.emit('doorLock', data.message);
-            pusher.pushNotification('IoT Home - Door', 'Someone opens the door!');
-        }
-        prevDoor = curDoor;
+        console.log(data.message);
+        io.sockets.emit('doorLock', data.message);
     })
 
     socket.on('search-weather', (data) => {
-        const weatherURL = 'http://api.openweathermap.org/data/2.5/forecast?' 
+    const weatherURL = 'http://api.openweathermap.org/data/2.5/forecast?' 
         + 'q=' 
         + encodeURIComponent(data.city) 
         + '&mode=json&units=metric&appid=' + apiKey;
@@ -192,33 +200,47 @@ io.on('connection', function(socket) {
            var json = {
              "weather": [displayWeather],
              "city": [data.city]
+           }
+           io.sockets.emit('weather-indication', json);
+           console.log(displayWeather);
          }
-         io.sockets.emit('weather-indication', json);
-         console.log(displayWeather);
-     }
- });
+        });
     });
 
+//-----------------------DOOR LOCK----------------------------------------
+    socket.on('servo1', function(data) {
+        io.sockets.emit('servo1', data);
+    });
+
+    socket.on('servo2', function(data) {
+        io.sockets.emit('servo2', data);
+    });
+
+    socket.on('servo3', function(data) {
+        io.sockets.emit('servo3', data);
+    });
+
+
+
+//----------------------LIGHT SWITCH-----------------------------------------
     socket.on('switch1', function(data) {
-        var json = {
-            "switch1": [data]
-        }
-        io.sockets.emit('switch1', json);
+        io.sockets.emit('switch1', data);
     });
 
     socket.on('switch2', function(data) {
-        var json = {
-            "switch2": [data]
-        }
-        io.sockets.emit('switch2', json);
+        io.sockets.emit('switch2', data);
     });
 
     socket.on('switch3', function(data) {
-        var json = {
-            "switch3": [data]
-        }
-        io.sockets.emit('switch3', json);
+        io.sockets.emit('switch3', data);
     });
+
+    socket.on('switch4', function(data) {
+        io.sockets.emit('switch4', data);
+    });
+
+ 
+
 
     app.get('/get_data', function(req, res) {
         io.sockets.emit('get_data', {message: 'GET request'});
@@ -230,14 +252,6 @@ io.on('connection', function(socket) {
         var query = uriData.query;       //   temp=30&humd=40
         var queryData = querystring.parse(query);
 
-        // var newData = {
-        //     temp: queryData.temp,
-        //     humd: queryData.humd,
-        //     time: new Date()
-        // };
-        // res.end();
-
-        // console.log(newData);
         io.sockets.emit('update_data', {temp: queryData.temp, humd: queryData.humd});
     });
 
