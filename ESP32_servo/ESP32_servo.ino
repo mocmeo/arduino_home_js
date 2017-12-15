@@ -17,13 +17,13 @@ SSD1306  display(0x3c, 21, 22);
 int doorSensor = 19;
 int state;
 
-SocketIOClient client ;
-const char * ssid = "mocmeo";
-const char * password = "12345678" ;
+SocketIOClient client;
+const char * ssid = "UNKNOWNWIFI";
+const char * password = "brunei2017" ;
 
 unsigned long previousMillis = 0;
 long interval = 4000;
-char host[] = "192.168.0.101";
+char host[] = "192.168.1.15";
 int port = 3000 ;
 extern String RID;
 extern String Rcontent;
@@ -202,11 +202,11 @@ void loop()
 void doorCheck() {
   state = digitalRead(doorSensor);
   if (state == 1) {
-    client.send("OPEN", "message", "DOOR OPENED!");
+    client.send("OPEN", "message", "OPENED!");
   } else {
-    client.send("OPEN", "message", "DOOR CLOSED!");
+    client.send("OPEN", "message", "CLOSED!");
   }
-  delay(50);
+  delay(1000);
 }
 
 

@@ -2,7 +2,7 @@
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
-var io = require('socket.io')(http); 
+var io = require('socket.io')(http);
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var morgan = require('morgan');
@@ -17,6 +17,10 @@ const apiKey = 'cbe56f9c535a28529109ed952ba49a9a';
 var url = require('url');
 var querystring = require('querystring');
 
+// For the door lock
+var prevDoor = false;
+var curDoor = false;
+
 
 // Config database and authentication
 var configDB = require('./config/database.js');
@@ -24,7 +28,7 @@ mongoose.connect(configDB.url);
 require('./config/passport')(passport);
 
 
-// Middleware  
+// Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -47,7 +51,7 @@ require('./app/routes.js')(app, passport);
 var iotStates = [];
 for (var i = 0; i < 5; i++) {
     iotStates.push(false);
-} 
+}
 
 var DEVICES = {
     ESP32: 1,
@@ -60,7 +64,7 @@ var check_iot_device = function(deviceName) {
     if (deviceName.indexOf('ESP32') != -1) {
         return DEVICES.ESP32;
     } else if (deviceName.indexOf('ESP8266') != -1) {
-        return DEVICES.ESP8266;     
+        return DEVICES.ESP8266;
     }
     return DEVICES.BROWSER;
 }
@@ -110,8 +114,8 @@ io.on('connection', function(socket) {
 
     // console.log("Connected");
     // var led = [true,false];
-    // var interval1 = setInterval(function(){ 
-    //     for ( var i = 0; i < led.length; i ++) {   
+    // var interval1 = setInterval(function(){
+    //     for ( var i = 0; i < led.length; i ++) {
     //         led[i] = !led[i];
     //     }
     //     var json = {
@@ -176,8 +180,17 @@ io.on('connection', function(socket) {
         console.log(data);
     });
 
-    socket.on('OPEN',function(status){  
-        console.log("DOOR OPEN",status);
+    socket.on('OPEN',function(status){
+      curDoor = (status.message == 'OPENED!') ? true : false;
+      if (prevDoor != curDoor) {
+        console.log(status.message);
+        if (prevDoor == false) {
+          pusher.pushNotification('IoT Home - Door', 'Someone opened the door!');
+        } else {
+          pusher.pushNotification('IoT Home - Door', 'Someone closed the door!');
+        }
+      }
+      prevDoor = curDoor;
     });
 
     socket.on('doorLock', function(data) {
@@ -186,9 +199,9 @@ io.on('connection', function(socket) {
     })
 
     socket.on('search-weather', (data) => {
-    const weatherURL = 'http://api.openweathermap.org/data/2.5/forecast?' 
-        + 'q=' 
-        + encodeURIComponent(data.city) 
+    const weatherURL = 'http://api.openweathermap.org/data/2.5/forecast?'
+        + 'q='
+        + encodeURIComponent(data.city)
         + '&mode=json&units=metric&appid=' + apiKey;
         request(weatherURL, function (error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -239,13 +252,13 @@ io.on('connection', function(socket) {
         io.sockets.emit('switch4', data);
     });
 
- 
+
 
 
     app.get('/get_data', function(req, res) {
         io.sockets.emit('get_data', {message: 'GET request'});
     });
-    
+
     app.get('/update', function(req, res) {
         var uriData = url.parse(req.url);
         var pathName = uriData.pathname; //   /update
@@ -262,5 +275,5 @@ http.listen(3000, function(req, res) {
     console.log(`Server listening on port: http://localhost:${port}`);
 });
 
-// app.listen(PORT);                                       
+// app.listen(PORT);
 // console.log ("Server Connected ON: http://localhost:" + PORT);

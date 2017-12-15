@@ -1,7 +1,7 @@
 var pushpad = require('pushpad');
 
-var AUTH_TOKEN = 'bb8bc090c09f067a6494e818052f548f';
-var PROJECT_ID = 4713;
+var AUTH_TOKEN = '5f4078a45534b008225884877e449718';
+var PROJECT_ID = 4833;
 
 
 var project = new pushpad.Pushpad({
@@ -13,11 +13,11 @@ var project = new pushpad.Pushpad({
 module.exports = {
     pushNotification: function(title, message) {
         var notification = new pushpad.Notification({
-          project: project, 
-          body: message,//'ESP32 connected successfully!', 
-          title: title, //'IoT Home - Devices', 
-          targetUrl: 'http://google.com', 
-          ttl: 2, 
+          project: project,
+          body: message,//'ESP32 connected successfully!',
+          title: title, //'IoT Home - Devices',
+          targetUrl: 'http://google.com',
+          ttl: 2,
           requireInteraction: false
         });
         notification.broadcast(function(err, result) { /*...*/ });
