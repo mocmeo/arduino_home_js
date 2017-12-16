@@ -18,12 +18,12 @@ int doorSensor = 19;
 int state;
 
 SocketIOClient client;
-const char * ssid = "UNKNOWNWIFI";
-const char * password = "brunei2017" ;
+const char * ssid = "mocmeo";
+const char * password = "12345678" ;
 
 unsigned long previousMillis = 0;
 long interval = 4000;
-char host[] = "192.168.1.15";
+char host[] = "192.168.0.106";
 int port = 3000 ;
 extern String RID;
 extern String Rcontent;
