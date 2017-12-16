@@ -16,7 +16,7 @@ module.exports = {
           project: project,
           body: message,//'ESP32 connected successfully!',
           title: title, //'IoT Home - Devices',
-          targetUrl: 'http://192.168.0.106/html/',
+          targetUrl: 'http://192.168.0.102/html/',
           ttl: 2,
           requireInteraction: false
         });

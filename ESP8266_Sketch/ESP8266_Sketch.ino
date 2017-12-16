@@ -9,12 +9,12 @@ SoftwareSerial mySerial = SoftwareSerial(RX, TX, false, 256);
 SerialCommand sCmd(mySerial);
 
 SocketIOClient client ;
-const char * ssid = "mocmeo" ;
+const char * ssid = "FUINNO.LAB" ;
 const char * password = "12345678" ;
 
 unsigned long previousMillis = 0;
 long interval = 4000;
-char host[] = "192.168.0.111";
+char host[] = "192.168.0.102";
 int port = 3000;
 extern String RID;
 extern String Rcontent;

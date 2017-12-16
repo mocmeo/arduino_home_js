@@ -19,11 +19,11 @@ DHT dht(DHTPIN, DHTTYPE);
 
 WiFiClient webClient;
 SocketIOClient client;
-const char* ssid = "mocmeo";
+const char* ssid = "FUINNO.LAB";
 const char* password = "12345678";
 
-const char* server = "192.168.0.111";
-char host[] = "192.168.0.111";
+const char* server = "192.168.0.102";
+char host[] = "192.168.0.102";
 int port = 3000;
 extern String RID;
 extern String Rname;
