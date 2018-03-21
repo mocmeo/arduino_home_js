@@ -6,39 +6,40 @@ var db = []; // database
 
 module.exports = function(app, passport){
     app.get('/', function(req, res){
-        if (req.isAuthenticated()) {
-            res.redirect('/dashboard');
-        } else {
-            res.render('home.ejs');
-        }
+        // if (req.isAuthenticated()) {
+        //     res.redirect('/dashboard');
+        // } else {
+        //     res.render('home.ejs');
+        // }
+        res.render('home.ejs');
     });
 
-    app.get('/profile', isLoggedIn, function(req, res){
+    app.get('/profile', function(req, res){
         res.render('profile.ejs', { user: req.user });
     });
 
-    app.get('/dashboard', isLoggedIn, function(req, res) {
+    app.get('/dashboard', function(req, res) {
         res.render('dashboard.ejs', { user: req.user });
     });
 
-    app.get('/video', isLoggedIn, function(req, res) {
+    app.get('/video', function(req, res) {
         res.redirect('http://192.168.0.100/html');
     });
 
-    app.get('/auth/facebook', passport.authenticate('facebook', { 
-      scope : ['public_profile', 'email']
-  }));
+  //   app.get('/auth/facebook', passport.authenticate('facebook', { 
+  //     scope : ['public_profile', 'email']
+  // }));
 
-    app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
-            successRedirect : '/dashboard',
-            failureRedirect : '/'
-        }));
+  //   app.get('/auth/facebook/callback',
+  //       passport.authenticate('facebook', {
+  //           successRedirect : '/dashboard',
+  //           failureRedirect : '/'
+  //       }));
 
-    app.get('/logout', function(req, res){
-        req.logout();
-        res.redirect('/');
-    });
+    // app.get('/logout', function(req, res){
+    //     req.logout();
+    //     res.redirect('/');
+    // });
 
     // app.get('/update', function(req, res) {
     //     var uriData = url.parse(req.url);
